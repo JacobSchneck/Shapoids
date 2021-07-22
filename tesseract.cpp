@@ -10,6 +10,20 @@ void Tesseract::reset_corners() {
 	corners.resize(16);
 	// TODO: Big Painful corner initialization;
 
+	// I'm clever
+	char X_SIGN[] = {'p', 'p', 'p', 'p','p', 'p', 'p', 'p', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n'};
+	char Y_SIGN[] = {'p', 'p', 'p', 'p','n', 'n', 'n', 'n', 'p', 'p', 'p', 'p', 'n', 'n', 'n', 'n'};
+	char Z_SIGN[] = {'p', 'p', 'n', 'n','p', 'p', 'n', 'n', 'p', 'p', 'n', 'n', 'p', 'p', 'n', 'n'};
+	char W_SIGN[] = {'p', 'n', 'p', 'n','p', 'n', 'p', 'n', 'p', 'n', 'p', 'n', 'p', 'n', 'p', 'n'};
+
+	for (int i = 0; i < corners.size(); i++) {
+		double x_val = X_SIGN[i] == 'p' ? center.x + (edge_length / 2.0) : center.x - (edge_length / 2.0);
+		double y_val = Y_SIGN[i] == 'p' ? center.y + (edge_length / 2.0) : center.y - (edge_length / 2.0);
+		double z_val = Z_SIGN[i] == 'p' ? center.z + (edge_length / 2.0) : center.z - (edge_length / 2.0);
+		double w_val = W_SIGN[i] == 'p' ? center.w + (edge_length / 2.0) : center.w - (edge_length / 2.0);
+
+		corners[i] = {x_val, y_val, z_val, w_val};
+	}
 }
 
 void Tesseract::draw_point(const point &p) const {
@@ -31,6 +45,10 @@ Tesseract::Tesseract(point center, unsigned int edge_length) {
 void Tesseract::draw() const {
 	glBegin(GL_QUADS);
 	// TODO: More big Pain,  draw each face of tesseract using draw_point
+
+	// 24 faces from 16 vertices ugh
+	
+	
 
 	glEnd();
 }

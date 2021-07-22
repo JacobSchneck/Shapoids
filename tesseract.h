@@ -1,7 +1,7 @@
 #ifndef INC_4D_GRAPHICS_TESSERACT_H
 #define INC_4D_GRAPHICS_TESSERACT_H
 
-#include <vector>;
+#include <vector>
 
 struct point {
 	double x;

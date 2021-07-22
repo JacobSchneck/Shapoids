@@ -1,13 +1,18 @@
 #ifndef INC_3D_GRAPHICS_CUBE_H
 #define INC_3D_GRAPHICS_CUBE_H
 
+#include "points.h"
+
 #include <vector>
 
-struct point {
-    double x;
-    double y;
-    double z;
-};
+
+
+// struct point {
+//     double x;
+//     double y;
+//     double z;
+// };
+typedef point3D point;
 
 class Cube {
 private:

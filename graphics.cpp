@@ -1,5 +1,7 @@
 #include "graphics.h"
 #include "cube.h"
+#include "tetrahedron.h"
+
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -7,6 +9,8 @@ using namespace std;
 GLdouble width, height;
 int wd;
 Cube c;
+Tetrahedron t;
+
 
 void init() {
     width = 500;
@@ -61,7 +65,15 @@ void display() {
      * Draw here
      */
     draw_axes();
-    c.draw();
+    // c.draw();
+    t.draw();
+    // glBegin(GL_TRIANGLE_FAN);
+    //     glColor3f(1, 0, 0);
+    //     glVertex3f(40, 50, 60);
+    //     glVertex3f(60, 40, 50);
+    //     glVertex3f(50, 60, 40);
+    // glEnd();
+
     
     glFlush();  // Render now
 }
@@ -75,11 +87,11 @@ void kbd(unsigned char key, int x, int y) {
     }
 
     switch(key) {
-        case 'x': c.rotate(PI / 100.0, 0, 0);
+        case 'x': t.rotate(PI / 100.0, 0, 0);
             break;
-        case 'z': c.rotate(0, PI / 100.0, 0);
+        case 'z': t.rotate(0, PI / 100.0, 0);
             break;
-        case 'c': c.rotate(0, 0, PI / 100.0);
+        case 'c': t.rotate(0, 0, PI / 100.0);
             break;
         case 'g': c.grow(10);
             break;
