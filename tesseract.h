@@ -1,14 +1,11 @@
 #ifndef INC_4D_GRAPHICS_TESSERACT_H
 #define INC_4D_GRAPHICS_TESSERACT_H
 
+#include "points.h"
+
 #include <vector>
 
-struct point {
-	double x;
-	double y;
-	double z;
-	double w; // fourth dimension's fourth's axis 
-};
+typedef point4D point;
 
 class Tesseract {
 	private:

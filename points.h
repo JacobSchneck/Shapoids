@@ -7,4 +7,11 @@ struct point3D {
 	double z;
 };
 
+struct point4D {
+	double x;
+	double y;
+	double z;
+	double w;
+};
+
 #endif

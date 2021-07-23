@@ -87,7 +87,7 @@ void Cube::rotate(double theta_x, double theta_y, double theta_z) {
     double center_x = center.x, center_y = center.y, center_z = center.z;
 
     // Move to origin
-    // move(-center_x, -center_y, -center_z);
+    move(-center_x, -center_y, -center_z);
 
     // Rotate x
     for (point &p : corners) {
@@ -109,7 +109,7 @@ void Cube::rotate(double theta_x, double theta_y, double theta_z) {
         p.y = old_x * sin(theta_z) + old_y * cos(theta_z);
     }
     // Move back to position
-    // move(center_x, center_y, center_z);
+    move(center_x, center_y, center_z);
 }
 
 void Cube::move(double delta_x, double delta_y, double delta_z) {
