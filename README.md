@@ -1,5 +1,5 @@
-# 4D-Shapoids
-Existence in 3D is so last millennium...
+# Shapoids
+2D, 3D and maybe even 4D, what shapes can I make!
 
 ## Goals
 
