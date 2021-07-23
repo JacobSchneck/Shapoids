@@ -52,7 +52,7 @@ Tetrahedron::Tetrahedron(point center, unsigned int edge_length) {
 void Tetrahedron::draw() const {
 	// std::cout << "HELLO" << std::endl;
 
-	glBegin(GL_TRIANGLE_FAN);
+	glBegin(GL_TRIANGLE_STRIP);
 
 	glColor3f(1, 1, 0);
 	draw_point(corners[0]);
@@ -60,19 +60,19 @@ void Tetrahedron::draw() const {
 	draw_point(corners[2]);
 
 	glColor3f(1, 0, 1);
-	draw_point(corners[3]);
-	draw_point(corners[0]);
 	draw_point(corners[1]);
+	draw_point(corners[2]);
+	draw_point(corners[3]);
 
 	glColor3f(0, 1, 1);
 	draw_point(corners[2]);
-	draw_point(corners[1]);
 	draw_point(corners[3]);
+	draw_point(corners[0]);
 
 	glColor3f(1, 0, 0);
 	draw_point(corners[3]);
 	draw_point(corners[0]);
-	draw_point(corners[2]);
+	draw_point(corners[1]);
 
 	glEnd();
 }
