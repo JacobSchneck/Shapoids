@@ -16,20 +16,21 @@ class Sphere {
 	private:
 		point center;
 		unsigned int radius;
-		std::vector<point> verticies; // verticies
-		std::vector<point> sectors; // triangle component used to construct sphere maybe
+		unsigned int num_points;
+		std::vector<std::vector<point>> verticies; // verticies
+		// std::vector<point> sectors; // triangle component used to construct sphere maybe
 
 		// private helper methods
 		void construct_verticies();
 		void construct_sectors(); // maybe
 		void draw_point(const point &p) const; // draw the verticies
-		void draw_sector(const point &p1, const point &p2, const point &p3);
+		// void draw_sector(const point &p1, const point &p2, const point &p3);
 
 	public:
 
 		// Constructors
 		Sphere();
-		Sphere(point center, unsigned int radius);
+		Sphere(point center, unsigned int radius, unsigned int num_points);
 
 		// Draw the Sphere
 		void draw() const;

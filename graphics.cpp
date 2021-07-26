@@ -1,7 +1,9 @@
 #include "graphics.h"
 #include "cube.h"
 #include "tetrahedron.h"
+#include "sphere.h"
 
+#include <math.h>
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -10,6 +12,7 @@ GLdouble width, height;
 int wd;
 Cube c;
 Tetrahedron t;
+Sphere s;
 
 
 void init() {
@@ -24,6 +27,8 @@ void initGL() {
     glEnable(GL_DEPTH_TEST);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    GLfloat lineWidthRange[2] = {0.0f, 0.0f};
+    glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, lineWidthRange);
     gluLookAt(2.0, 3.0, 6.0,  // eye position
               0.0, 0.0, 0.0,  // center position (not gaze direction)
               0.0, 1.0, 0.0); // up vector
@@ -41,6 +46,42 @@ void draw_axes() {
     glColor3f(0.0, 0.0, 1.0);
     glVertex3f(0.0, 0.0, width);
     glVertex3f(0.0, 0.0, -width);
+    glEnd();
+}
+
+void draw_sphere() {
+    int radius = 50;
+	int total = 100;
+	vector<double> lon;
+	vector<double> lat;
+	lon.resize(total);
+	lat.resize(total);
+
+	// initalizing some things;
+    // cout << M_PI << endl;
+	lon[0] = -M_PI;
+	double lon_step = 2*M_PI / total;
+	lat[0] = -M_PI;
+	double lat_step = 2*M_PI / total;
+
+	for (int i = 1; i < total; i++) {
+		lon[i] = lon[i - 1] + lon_step;
+		lat[i] = lat[i - 1] + lat_step;
+        // cout << "(" << lon[i - 1] << ", " << lat[i - 1] << ") | ";
+	}
+        // cout << "(" << lon[total - 1] << ", " << lat[total - 1] << ")" << endl;
+	
+	// other thing	
+    glBegin(GL_POINTS);
+	for (int i = 0; i < total; i++ ) {
+		for( int j = 0; j < total; j++) {		
+			double x = radius * cos(lon[i]) * sin(lat[j]);
+			double y = radius * sin(lon[i]) * sin(lat[j]);
+			double z = radius * cos(lat[j]);
+            glColor3f(1, 0, 0);
+			glVertex3f(x, y, z);
+		}
+	}
     glEnd();
 }
 
@@ -66,14 +107,19 @@ void display() {
      */
     draw_axes();
     // c.draw();
-    t.draw();
+    // t.draw();
     // glBegin(GL_TRIANGLE_FAN);
     //     glColor3f(1, 0, 0);
     //     glVertex3f(40, 50, 60);
     //     glVertex3f(60, 40, 50);
     //     glVertex3f(50, 60, 40);
     // glEnd();
-
+    // draw_sphere();
+    s.draw();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glLineWidth(1.0f);
+    glColor3f(1, 1, 1);
+    s.draw();
     
     glFlush();  // Render now
 }
@@ -87,11 +133,11 @@ void kbd(unsigned char key, int x, int y) {
     }
 
     switch(key) {
-        case 'x': t.rotate(PI / 100.0, 0, 0);
+        case 'x': s.rotate(PI / 100.0, 0, 0);
             break;
-        case 'z': t.rotate(0, PI / 100.0, 0);
+        case 'z': s.rotate(0, PI / 100.0, 0);
             break;
-        case 'c': t.rotate(0, 0, PI / 100.0);
+        case 'c': s.rotate(0, 0, PI / 100.0);
             break;
         case 'g': c.grow(10);
             break;

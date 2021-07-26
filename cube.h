@@ -5,13 +5,6 @@
 
 #include <vector>
 
-
-
-// struct point {
-//     double x;
-//     double y;
-//     double z;
-// };
 typedef point3D point;
 
 class Cube {
