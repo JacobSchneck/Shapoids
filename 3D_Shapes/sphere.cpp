@@ -1,6 +1,6 @@
 #include <math.h>
 #include "sphere.h"
-#include "graphics.h"
+#include "../graphics.h"
 #include <iostream>
 
 using namespace std;

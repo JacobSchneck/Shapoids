@@ -1,7 +1,7 @@
 
 #include <math.h>
 #include "tetrahedron.h"
-#include "graphics.h"
+#include "../graphics.h"
 #include <iostream>
 
 using namespace std;
@@ -82,9 +82,6 @@ void Tetrahedron::rotate(double theta_x, double theta_y, double theta_z) {
     double old_x = 0, old_y = 0, old_z = 0;
     double center_x = center.x, center_y = center.y, center_z = center.z;
 
-    // Move to origin
-    // move(-center_x, -center_y, -center_z);
-
     // Rotate x
     for (point &p : corners) {
         old_y = p.y;
@@ -104,7 +101,5 @@ void Tetrahedron::rotate(double theta_x, double theta_y, double theta_z) {
         p.x = old_x * cos(theta_z) - old_y * sin(theta_z);
         p.y = old_x * sin(theta_z) + old_y * cos(theta_z);
     }
-    // Move back to position
-    // move(center_x, center_y, center_z);
 
 }

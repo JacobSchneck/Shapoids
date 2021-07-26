@@ -1,7 +1,7 @@
 #include "graphics.h"
-#include "cube.h"
-#include "tetrahedron.h"
-#include "sphere.h"
+#include "3D_Shapes/cube.h"
+#include "3D_Shapes/tetrahedron.h"
+#include "3D_Shapes/sphere.h"
 
 #include <math.h>
 #include <iostream>

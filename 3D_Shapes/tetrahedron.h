@@ -1,7 +1,7 @@
 #ifndef INC_3D_GRAPHICS_TETRAHEDRON_H
 #define INC_3D_GRAPHICS_TETRAHEDRON_H
 
-#include "points.h"
+#include "../points.h"
 
 #include <vector>
 

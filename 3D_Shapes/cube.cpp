@@ -1,6 +1,6 @@
 #include <math.h>
 #include "cube.h"
-#include "graphics.h"
+#include "../graphics.h"
 #include <iostream>
 
 /****************** Private helper methods *******************/
