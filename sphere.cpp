@@ -17,7 +17,7 @@ void Sphere::construct_verticies() {
 	lat[0] = -M_PI;
 	double lat_step = 2*M_PI / num_points;
 
-	for (int i = 1; i < num_points; i++) {
+	for (int i = 1; i < num_points + 1; i++) {
 		lon[i] = lon[i - 1] + lon_step;
 		lat[i] = lat[i - 1] + lat_step;
 	}
@@ -29,13 +29,13 @@ void Sphere::construct_verticies() {
 	verticies.clear();
 
 	// resize verticies
-	verticies.resize(num_points);
+	verticies.resize(num_points + 1);
 	for (auto &vec : verticies) {
-		vec.resize(num_points);
+		vec.resize(num_points + 1);
 	}
 
-	for (int i = 0; i < num_points; i++ ) {
-		for( int j = 0; j < num_points; j++) {		
+	for (int i = 0; i < num_points + 1; i++ ) {
+		for( int j = 0; j < num_points + 1; j++) {		
 			double x = radius * cos(lon[i]) * sin(lat[j]);
 			double y = radius * sin(lon[i]) * sin(lat[j]);
 			double z = radius * cos(lat[j]);
@@ -44,15 +44,12 @@ void Sphere::construct_verticies() {
 	}
 }
 
-// void Sphere::construct_sectors() {
-
-// }
 
 /********************** Public methods *************************/
 Sphere::Sphere() {
 	center = {0, 0, 0};
 	radius = 100;
-	num_points = 20;
+	num_points = 50;
 	construct_verticies();
 }
 
@@ -64,19 +61,14 @@ Sphere::Sphere(point center, unsigned int radius, unsigned int num_points) {
 }
 
 void Sphere::draw() const {
-	glBegin(GL_TRIANGLE_FAN);
-	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	for (int i = 0; i < num_points - 1; i++ ) {
-		for( int j = 0; j < num_points - 1; j++) {		
+	for (int i = 0; i < num_points; i++ ) {
+		glBegin(GL_TRIANGLE_STRIP);
+		for( int j = 0; j < num_points + 1; j++) {		
 			auto v1 = verticies[i][j]; 
-			auto v2 = verticies[i+1][j];
-			auto v3 = verticies[i][j + 1];
-			// auto v4 = verticies[i + 1][j + 1];
+			auto v2 = verticies[i + 1][j];
 
 			glVertex3f(v1.x, v1.y, v1.z);
 			glVertex3f(v2.x, v2.y, v2.z);
-			glVertex3f(v3.x, v3.y, v3.z);
-			// glVertex3f(v4.x, v4.y, v4.z);
 		}
 	}
 	glEnd();

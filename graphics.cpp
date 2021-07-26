@@ -117,7 +117,7 @@ void display() {
     // draw_sphere();
     s.draw();
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glLineWidth(1.0f);
+    glLineWidth(0.5f);
     glColor3f(1, 1, 1);
     s.draw();
     
