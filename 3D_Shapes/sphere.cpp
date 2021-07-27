@@ -49,7 +49,7 @@ void Sphere::construct_verticies() {
 Sphere::Sphere() {
 	center = {0, 0, 0};
 	radius = 100;
-	num_points = 50;
+	num_points = 10;
 	construct_verticies();
 }
 
@@ -73,25 +73,11 @@ void Sphere::draw() const {
 	}
 	glEnd();
 
-	// glBegin(GL_POINTS);
-	// glColor3f(1, 0, 0);
-	// for (int i = 0; i < num_points; i++ ) {
-	// 	for( int j = 0; j < num_points; j++) {		
-	// 		auto v = verticies[i][j]; 
-	// 		auto r = rand() % 2;
-	// 		auto g = rand() % 2;
-	// 		auto b = rand() % 2;
-	// 		glColor3f(r, g, b);
-	// 		glVertex3f(v.x, v.y, v.z);
-	// 	}
-	// }
-	// glEnd();
 }
 
 void Sphere::rotate(double theta_x, double theta_y, double theta_z) {
     double old_x = 0, old_y = 0, old_z = 0;
     double center_x = center.x, center_y = center.y, center_z = center.z;
-	 cout << "HI" << endl;
 
     // Rotate x
 	for (auto &vec : verticies) {
