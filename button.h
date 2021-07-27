@@ -16,9 +16,13 @@ class Button {
 
 		Button(std::string content, point center);
 
-		// onClick()
-		void onClick();
+		void on();
+
+		void off();
 
 		// draw
 		void draw();
+
+		// check if mouse hovers over button;
+		bool hover(int x, int y);
 };

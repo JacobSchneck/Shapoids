@@ -48,8 +48,8 @@ void Sphere::construct_verticies() {
 /********************** Public methods *************************/
 Sphere::Sphere() {
 	center = {0, 0, 0};
-	radius = 100;
-	num_points = 10;
+	radius = 50;
+	num_points = 20;
 	construct_verticies();
 }
 

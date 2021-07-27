@@ -9,12 +9,23 @@
 #include <vector>
 using namespace std;
 
+enum Shape {
+    CUBE,
+    TETRAHEDRON,
+    SPHERE
+};
+
+Shape shape = CUBE;
+
 GLdouble width, height;
 int wd;
 Cube c;
 Tetrahedron t;
 Sphere s;
-Button b = Button("Button", {-200, 200, 0});
+// Button b = Button("Button", {-200, 200, 0});
+Button cube_button = Button("Cube", {-210, 230, 0});
+Button tetrahedron_button = Button("Tetrahedron", {-140, 230, 0});
+Button sphere_button = Button("Sphere", {-70, 230, 0});
 
 void init() {
     width = 500;
@@ -70,17 +81,32 @@ void display() {
     /*
      * Draw here
      */
-    b.draw();
+    cube_button.draw();
+    tetrahedron_button.draw();
+    sphere_button.draw();
 
     draw_axes();
-    c.draw();
-    // t.draw();
+    switch(shape) {
+        case CUBE: c.draw();
+            break;
+        case TETRAHEDRON: t.draw();
+            break;
+        case SPHERE: 
+            s.draw();
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            glLineWidth(0.5f);
+            glColor3f(1, 1, 1);
+            s.draw();
+            break;
+    }
+    // c.draw();
+    // // t.draw();
 
-    // s.draw();
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    // glLineWidth(0.5f);
-    // glColor3f(1, 1, 1);
-    // s.draw();
+    // // s.draw();
+    // // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // // glLineWidth(0.5f);
+    // // glColor3f(1, 1, 1);
+    // // s.draw();
     
     glFlush();  // Render now
 }
@@ -94,20 +120,47 @@ void kbd(unsigned char key, int x, int y) {
     }
 
     switch(key) {
-        case 'x': c.rotate(PI / 100.0, 0, 0);
+        case 'x': 
+            switch(shape) {
+                case CUBE: c.rotate(PI / 100.0, 0, 0);
+                    break;
+                case TETRAHEDRON: t.rotate(PI / 100.0, 0, 0);
+                    break;
+                case SPHERE: s.rotate(PI / 100.0, 0, 0);
+                    break;
+            }
             break;
-        case 'z': c.rotate(0, PI / 100.0, 0);
+        case 'z': 
+            switch(shape) {
+                case CUBE: c.rotate(0, PI / 100.0, 0);
+                    break;
+                case TETRAHEDRON: t.rotate(0, PI / 100.0, 0);
+                    break;
+                case SPHERE: s.rotate(0, PI / 100.0, 0);
+                    break;
+            }
             break;
-        case 'c': c.rotate(0, 0, PI / 100.0);
+        case 'c': 
+            switch(shape) {
+                case CUBE: c.rotate(0, 0, PI / 100.0);
+                    break;
+                case TETRAHEDRON: t.rotate(0, 0, PI / 100.0);
+                    break;
+                case SPHERE: s.rotate(0, 0, PI / 100.0);
+                    break;
+            }
             break;
-        case 'g': c.grow(10);
-            break;
-        case 's': c.shrink(10);
-            break;
-        case ',': c.move(0, -5, 0);
-            break;
-        case '.': c.move(0, 5, 0);
-            break;
+
+    // only rotate for now
+
+    //     case 'g': c.grow(10);
+    //         break;
+    //     case 's': c.shrink(10);
+    //         break;
+    //     case ',': c.move(0, -5, 0);
+    //         break;
+    //     case '.': c.move(0, 5, 0);
+    //         break;
     }
     
     glutPostRedisplay();
@@ -133,13 +186,39 @@ void kbdS(int key, int x, int y) {
 }
 
 void cursor(int x, int y) {
-    
     glutPostRedisplay();
 }
 
 // button will be GLUT_LEFT_BUTTON or GLUT_RIGHT_BUTTON
 // state will be GLUT_UP or GLUT_DOWN
 void mouse(int button, int state, int x, int y) {
+    int x_translate = x - 250;
+    int y_translate = 250 - y;
+    if (cube_button.hover(x_translate, y_translate) && state == GLUT_DOWN ) {
+        cout << "cube" << endl;
+        cube_button.on();
+        tetrahedron_button.off();
+        sphere_button.off();
+
+        shape = CUBE;
+
+    } else if (tetrahedron_button.hover(x_translate, y_translate) && state == GLUT_DOWN ) {
+        cout << "tetrahedron" << endl;
+        tetrahedron_button.on();
+        cube_button.off();
+        sphere_button.off();
+
+        shape = TETRAHEDRON;
+        
+    } else if (sphere_button.hover(x_translate, y_translate) && state == GLUT_DOWN ) {
+        cout << "sphere" << endl;
+        sphere_button.on();
+        cube_button.off();
+        tetrahedron_button.off();
+
+        shape = SPHERE;
+    }
+
     
     glutPostRedisplay();
 }
