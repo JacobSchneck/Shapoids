@@ -16,6 +16,12 @@
 
 const double PI = 3.14159265358979323846;
 
+enum Shape {
+    CUBE,
+    TETRAHEDRON,
+    SPHERE
+};
+
 // Program initialization NOT OpenGL/GLUT dependent,
 // as we haven't created a GLUT window yet
 void init();

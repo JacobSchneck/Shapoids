@@ -9,11 +9,6 @@
 #include <vector>
 using namespace std;
 
-enum Shape {
-    CUBE,
-    TETRAHEDRON,
-    SPHERE
-};
 
 Shape shape = CUBE;
 
@@ -81,9 +76,9 @@ void display() {
     /*
      * Draw here
      */
-    cube_button.draw();
-    tetrahedron_button.draw();
-    sphere_button.draw();
+    cube_button.draw(CUBE);
+    tetrahedron_button.draw(TETRAHEDRON);
+    sphere_button.draw(SPHERE);
 
     draw_axes();
     switch(shape) {

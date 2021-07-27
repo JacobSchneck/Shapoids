@@ -1,5 +1,6 @@
 #include "points.h"
 #include <string>
+#include "graphics.h"
 
 typedef point3D point;
 
@@ -21,7 +22,7 @@ class Button {
 		void off();
 
 		// draw
-		void draw();
+		void draw(Shape shape);
 
 		// check if mouse hovers over button;
 		bool hover(int x, int y);
