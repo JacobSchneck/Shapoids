@@ -16,19 +16,6 @@
 
 using namespace std;
 
-// struct point3D {
-// 	double x;
-// 	double y;
-// 	double z;
-// };
-
-// struct point4D {
-// 	double x;
-// 	double y;
-// 	double z;
-// 	double w;
-// };
-
 int wd; // window
 
 vector<point3D> cube;
@@ -90,11 +77,14 @@ unsigned int  pent_idx[19][2] {
 	{3, 4}
 };
 
+auto tess = Tesseract();
+
 GLdouble width, height;
 void init() {
 	width = 500;
 	height = 500;
 
+	// tess = Tesseract();
 
 	// write a cube and tesseract
 	{
@@ -345,7 +335,9 @@ void display() {
 	*/
 	// draw_cube();
 
-	draw_tesseract(); // works !!
+	tess.draw();
+
+	// draw_tesseract(); // works !!
 	// draw_pentachoron();
 
 	// draw_tetrahedron();
@@ -360,7 +352,8 @@ void kbd(unsigned char key, int x, int y) {
 		exit(0);
 	}
 
-double d_theta = PI / 100;
+	double d_theta = PI / 100;
+
 	// xy plane rotation
 	vector<vector<double>> theta_xy = {
 		{1, 0, 0, 0},
@@ -377,7 +370,6 @@ double d_theta = PI / 100;
 		{0, sin(d_theta), 0,  cos(d_theta)}
 	};
 
-
 	//  yz plane rotation
 	vector<vector<double>> theta_yz = {
 		{cos(d_theta), 0, 0, -sin(d_theta)},
@@ -387,18 +379,48 @@ double d_theta = PI / 100;
 	};
 
 
+	// xy plane rotation
+	double theta_xy_arr[4][4] {
+		{1, 0, 0, 0},
+		{0, 1, 0, 0},
+		{0, 0, cos(d_theta), -sin(d_theta),},
+		{0, 0, sin(d_theta), cos(d_theta), }
+	};
+
+	// xz plane rotation
+	double theta_xz_arr[4][4] {
+		{1, 				0, 0, 				0},
+		{0, cos(d_theta), 0, -sin(d_theta)},
+		{0, 				0, 1, 			  0,},
+		{0, sin(d_theta), 0,  cos(d_theta)}
+	};
+
+	//  yz plane rotation
+	double theta_yz_arr[4][4] {
+		{cos(d_theta), 0, 0, -sin(d_theta)},
+		{0, 1, 0, 0},
+		{0, 0, 1, 0,},
+		{sin(d_theta), 0, 0, cos(d_theta), }
+	};
+
+	// double theta_xy[4][4];
+	// std:copy(theta_xy.begin(), theta_xy.end(), arr[0])
+
 	switch(key) {
 		case 'x': 
 			rotate(tesseract, theta_xy);
 			rotate(pentachoron, theta_xy);
+			tess.rotate(theta_xy_arr);
 			break;
 		case 'z':   
 			rotate(tesseract, theta_xz);
-			rotate(pentachoron, theta_xy);
+			rotate(pentachoron, theta_xz);
+			tess.rotate(theta_xz_arr);
 			break;
 		case 'c': 
 			rotate(tesseract, theta_yz);
-			rotate(pentachoron, theta_xy);
+			rotate(pentachoron, theta_yz);
+			tess.rotate(theta_yz_arr);
 			break;
 	}
 
@@ -424,41 +446,43 @@ void timer(int dummy) {
 }
 
 int main(int argc, char** argv) {
-    
-    init(); // set up zone
-    
-    glutInit(&argc, argv);          // Initialize GLUT
-    
-    glutInitDisplayMode(GLUT_RGBA);
-    
-    glutInitWindowSize((int)width, (int)height);
-    glutInitWindowPosition(100, 200); // Position the window's initial top-left corner
-    /* create the window and store the handle to it */
-    wd = glutCreateWindow("4D Graphics!" /* title */ );
-    
-    // Register callback handler for window re-paint event
-    glutDisplayFunc(display);
-    
-    // Our own OpenGL initialization
-    initGL();
-    
-    // register keyboard press event processing function
-    // works for numbers, letters, spacebar, etc.
-    glutKeyboardFunc(kbd);
-    
-    // register special event: function keys, arrows, etc.
-    glutSpecialFunc(kbdS);
-    
-    // handles mouse movement
-    glutPassiveMotionFunc(cursor);
-    
-    // handles mouse click
-    glutMouseFunc(mouse);
-    
-    // handles timer
-    glutTimerFunc(0, timer, 0);
-    
-    // Enter the event-processing loop
-    glutMainLoop();
-    return 0;
+
+	init(); // set up zone
+	
+	glutInit(&argc, argv);          // Initialize GLUT
+	
+	glutInitDisplayMode(GLUT_RGBA);
+	
+	glutInitWindowSize((int)width, (int)height);
+	glutInitWindowPosition(100, 200); // Position the window's initial top-left corner
+	/* create the window and store the handle to it */
+	wd = glutCreateWindow("4D Graphics!" /* title */ );
+	
+	// Register callback handler for window re-paint event
+	glutDisplayFunc(display);
+	
+	// Our own OpenGL initialization
+	initGL();
+	
+	// register keyboard press event processing function
+	// works for numbers, letters, spacebar, etc.
+	glutKeyboardFunc(kbd);
+	
+	// register special event: function keys, arrows, etc.
+	glutSpecialFunc(kbdS);
+	
+	// handles mouse movement
+	glutPassiveMotionFunc(cursor);
+	
+	// handles mouse click
+	glutMouseFunc(mouse);
+	
+	// handles timer
+	glutTimerFunc(0, timer, 0);
+	
+	// Enter the event-processing loop
+	glutMainLoop();
+
+
+	return 0;
 }

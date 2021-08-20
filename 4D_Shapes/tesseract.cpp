@@ -8,61 +8,77 @@ using namespace std;
 
 /****************** Private helper methods *******************/
 void Tesseract::construct_verticies() {
-	verticies.clear();
-	verticies.resize(15);
+	cout << "Constructing Verticies" << endl;
 
-	verticies[0] = { edge_length,  edge_length,  edge_length,  edge_length};
-	verticies[1] = { edge_length,  edge_length, -edge_length,  edge_length};
-	verticies[2] = { edge_length, -edge_length,  edge_length,  edge_length};
-	verticies[3] = { edge_length, -edge_length, -edge_length,  edge_length};
-	verticies[4] = {-edge_length,  edge_length,  edge_length,  edge_length};
-	verticies[5] = {-edge_length,  edge_length, -edge_length,  edge_length};
-	verticies[6] = {-edge_length, -edge_length,  edge_length,  edge_length};
-	verticies[7] = {-edge_length, -edge_length, -edge_length,  edge_length};
+	// verticies.clear();
 
-	verticies[8] =  { edge_length,  edge_length,  edge_length, -edge_length};
-	verticies[9] =  { edge_length,  edge_length, -edge_length, -edge_length};
-	verticies[10] = { edge_length, -edge_length,  edge_length, -edge_length};
-	verticies[11] = { edge_length, -edge_length, -edge_length, -edge_length};
-	verticies[12] = {-edge_length,  edge_length,  edge_length, -edge_length};
-	verticies[13] = {-edge_length,  edge_length, -edge_length, -edge_length};
-	verticies[14] = {-edge_length, -edge_length,  edge_length, -edge_length};
-	verticies[15] = {-edge_length, -edge_length, -edge_length, -edge_length};
+	verticies.push_back({ edge_length,  edge_length,  edge_length,  edge_length});
+	verticies.push_back({ edge_length,  edge_length, -edge_length,  edge_length});
+	verticies.push_back({ edge_length, -edge_length,  edge_length,  edge_length});
+	verticies.push_back({ edge_length, -edge_length, -edge_length,  edge_length});
+	verticies.push_back({-edge_length,  edge_length,  edge_length,  edge_length});
+	verticies.push_back({-edge_length,  edge_length, -edge_length,  edge_length});
+	verticies.push_back({-edge_length, -edge_length,  edge_length,  edge_length});
+	verticies.push_back({-edge_length, -edge_length, -edge_length,  edge_length});
+
+	verticies.push_back({ edge_length,  edge_length,  edge_length, -edge_length});
+	verticies.push_back({ edge_length,  edge_length, -edge_length, -edge_length});
+	verticies.push_back({ edge_length, -edge_length,  edge_length, -edge_length});
+	verticies.push_back({ edge_length, -edge_length, -edge_length, -edge_length});
+	verticies.push_back({-edge_length,  edge_length,  edge_length, -edge_length});
+	verticies.push_back({-edge_length,  edge_length, -edge_length, -edge_length});
+	verticies.push_back({-edge_length, -edge_length,  edge_length, -edge_length});
+	verticies.push_back({-edge_length, -edge_length, -edge_length, -edge_length});
 }
+
+void Tesseract::construct_edges() {
+	// outer cube
+	edges.push_back({0, 1});
+	edges.push_back({0, 2});
+	edges.push_back({0, 4});
+	edges.push_back({1, 3});
+	edges.push_back({1, 5});
+	edges.push_back({2, 3});
+	edges.push_back({2, 6});
+	edges.push_back({3, 7});
+	edges.push_back({4, 5});
+	edges.push_back({4, 6});
+	edges.push_back({5, 7});
+	edges.push_back({6, 7});
+
+	// inner cube
+	edges.push_back({8, 9});
+	edges.push_back({8, 10});
+	edges.push_back({8, 12});
+	edges.push_back({9, 11});
+	edges.push_back({9, 13});
+	edges.push_back({10, 11});
+	edges.push_back({10, 14});
+	edges.push_back({11, 15});
+	edges.push_back({12, 13});
+	edges.push_back({12, 14});
+	edges.push_back({13, 15});
+	edges.push_back({14, 15});
+
+	// cube 3
+	edges.push_back({0, 8});
+	edges.push_back({1, 9});
+	edges.push_back({2, 10});
+	edges.push_back({3, 11});
+
+	// cube 4
+	edges.push_back({4, 12});
+	edges.push_back({5, 13});
+	edges.push_back({6, 14});
+	edges.push_back({7, 15});
+}
+
 /********************** Public methods *************************/
 Tesseract::Tesseract() : Shape4D() {
-	// cout << "HI" << endl;
+	cout << edge_length << endl;
+	cout << "Calling Constructor" << endl;
 	construct_verticies();
+	construct_edges();
 };
 Tesseract::~Tesseract() {};
-
-void Tesseract::draw() const {
-	// glLineWidth(2.0);
-	// glPointSize(5.0);
-
-	// glBegin(GL_LINES);
-	// for (auto &vec : tess_idx) {
-	// 	glColor3f(1.0, 0.0, 1.0);
-	// 	draw_vertex(verticies[vec[0]]);
-	// 	glColor3f(1.0, 1.0, 0.0);
-	// 	draw_vertex(verticies[vec[1]]);
-	// }
-	// glEnd();
-
-	// glColor3f(1.0, 1.0, 1.0);
-	// glBegin(GL_POINTS);
-	// for (int i = 0; i < verticies.size(); ++i) {
-	// 	draw_vertex(verticies[i]);
-	// }
-	// glEnd();
-}
-
-void Tesseract::rotate(const rotation4D &rot_mat) {
-	// for (point4D &p : verticies) {
-	// 	p.x = rot_mat[0][0]*p.x + rot_mat[0][1]*p.y + rot_mat[0][2]*p.z + rot_mat[0][3]*p.w;
-	// 	p.y = rot_mat[1][0]*p.x + rot_mat[1][1]*p.y + rot_mat[1][2]*p.z + rot_mat[1][3]*p.w;
-	// 	p.z = rot_mat[2][0]*p.x + rot_mat[2][1]*p.y + rot_mat[2][2]*p.z + rot_mat[2][3]*p.w;
-	// 	p.w = rot_mat[3][0]*p.x + rot_mat[3][1]*p.y + rot_mat[3][2]*p.z + rot_mat[3][3]*p.w;
-	// }
-}
 

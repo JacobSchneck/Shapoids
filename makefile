@@ -15,6 +15,7 @@ make:
 
 exper:
 	@echo "Running Experiments"
-	${CC} Experiments/graphics4D.cpp -o graphics4D ${libs}
+# ${CC} Experiments/graphics4D.cpp -o graphics4D ${libs}
+	${CC} Experiments/graphics4D.cpp 4D_Shapes/*.cpp -o graphics4D ${libs}
 	./graphics4D
 	rm graphics4D
