@@ -213,8 +213,6 @@ void mouse(int button, int state, int x, int y) {
 
         shape = SPHERE;
     }
-
-    
     glutPostRedisplay();
 }
 
@@ -236,7 +234,7 @@ int main(int argc, char** argv) {
     glutInitWindowSize((int)width, (int)height);
     glutInitWindowPosition(100, 200); // Position the window's initial top-left corner
     /* create the window and store the handle to it */
-    wd = glutCreateWindow("3D Graphics!" /* title */ );
+    wd = glutCreateWindow("Shapoids!" /* title */ );
     
     // Register callback handler for window re-paint event
     glutDisplayFunc(display);
