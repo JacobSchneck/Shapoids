@@ -11,4 +11,6 @@ Use z, x, c to rotate.
 - Cycle between shapes with mouse click (complete)
 - Rotate each shape (complete)
 - Make a tetrahedron, cube and sphere. (complete)
-- Reach goal is to make a solid representation of a tesseract, pentachoron and a 4D Sphere thing
+- Make a tesseract, pentachoron and 4D-sphere (2 / 3 ain't bad)
+- Optional: Add square, triangle and circle
+- Optional: Refactor codebase into more organized folder system
