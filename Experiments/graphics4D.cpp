@@ -8,12 +8,12 @@
 #include "../4D_Shapes/tesseract.h"
 #include "../4D_Shapes/pentachoron.h"
 #include "../points.h"
+#include "../enums.h"
 
 #include <math.h>
 #include <iostream>
 #include <vector>
 #include <memory>
-
 
 using namespace std;
 
@@ -337,8 +337,8 @@ void display() {
 	*/
 	// draw_cube();
 
-	// tess.draw();
-	pent.draw();
+	tess.draw();
+	// pent.draw();
 
 	// draw_tesseract(); // works !!
 	// draw_pentachoron();

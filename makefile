@@ -9,7 +9,7 @@ libs = -lglut -lGL -lGLU
 
 make: 
 	@echo "Running Shapoids"
-	${CC} *.cpp 3D_Shapes/*.cpp -o graphics ${libs}
+	${CC} *.cpp 3D_Shapes/*.cpp 4D_Shapes/*.cpp -o graphics ${libs}
 	./graphics
 	rm graphics
 

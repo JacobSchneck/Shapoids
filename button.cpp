@@ -1,5 +1,7 @@
-#include <math.h>
 #include "button.h"
+#include "graphics.h"
+
+#include <math.h>
 #include <iostream>
 
 using namespace std;
@@ -19,16 +21,29 @@ Button::Button(string content, point center) {
 	edge_length = 30;
 }
 
-// void Button::onClick() {
-// 	isOn = isOn ? false : true;
-// }
-
 void Button::on() {
 	isOn = true;
 }
 
 void Button::off() {
 	isOn = false;
+}
+
+void Button::draw()  {
+	glBegin(GL_QUADS);
+	isOn ? glColor3f(.8, .8, .8) : glColor3f(1, 1, 1);
+   glVertex3f(center.x + (edge_length ), center.y + (edge_length / 2.0), center.z + (edge_length / 2.0));
+   glVertex3f(center.x - (edge_length ), center.y + (edge_length / 2.0), center.z + (edge_length / 2.0));
+   glVertex3f(center.x - (edge_length ), center.y - (edge_length / 2.0), center.z + (edge_length / 2.0));
+   glVertex3f(center.x + (edge_length ), center.y - (edge_length / 2.0), center.z + (edge_length / 2.0));
+	glEnd();
+
+	glColor3f(1, 0, 1);
+	glRasterPos3f(center.x - 7, center.y - 5, center.z);
+	for (const char &letter : content) {
+		glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+	}
+
 }
 
 void Button::draw(Shape shape)  {
@@ -78,17 +93,12 @@ void Button::draw(Shape shape)  {
 
 			break;
 	}
-
 }
 
-bool Button::hover(int x, int y) {
-	// cout << "( " << x << ", " << y << ")" << endl;
-	// cout << center.x - edge_length << " to " << center.x + edge_length << " | ";
-	// cout << center.y - (edge_length / 2.0) << " to " << center.y + (edge_length / 2.0) << endl;
 
+bool Button::hover(int x, int y) {
 	if ( (x < center.x + edge_length && x > center.x - edge_length ) && (y < center.y + (edge_length  / 2.0) && y > center.y - (edge_length) / 2.0) ) {
 		return true;
 	}
-
 	return false;
 }

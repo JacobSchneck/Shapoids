@@ -11,28 +11,15 @@ using namespace std;
 void Tetrahedron::reset_corners() {
 	corners.clear();
 	corners.resize(4);
-	// corners[0] = {center.x + (edge_length / 2.0), center.y, center.z - (edge_length / (2 * sqrt(2)) ) }; 
-	// corners[1] = {center.x - (edge_length / 2.0), center.y, center.z - (edge_length / (2 * sqrt(2)) ) };
-	// corners[2] = {center.x, center.y + (edge_length / 2.0), center.z + (edge_length / (2 * sqrt(2)) ) };
-	// corners[3] = {center.x, center.y - (edge_length / 2.0), center.z + (edge_length / (2 * sqrt(2)) ) };
+
 	corners[0] = {center.x + sqrt(8/9.0)*edge_length, center.y, center.z - (1/3.0)*edge_length};
 	corners[1] = {center.x - sqrt(2/9.0)*edge_length, center.y + sqrt(2/3.0)*edge_length, center.z - (1/3.0)*edge_length};
 	corners[2] = {center.x - sqrt(2/9.0)*edge_length, center.y - sqrt(2/3.0)*edge_length, center.z - (1/3.0)*edge_length};
 	corners[3] = {center.x, center.y, center.z + edge_length};
 
-	// cout << sqrt(8/9)*((double)edge_length)  << endl;
-	// cout << sqrt(4) << endl;
-
-	// cout << sqrt(4) * edge_length << endl;
-	// cout << sqrt(8/9) << endl;
-
-	// for (auto c : corners ) {
-	// 	std::cout << "(" << c.x << ", " << c.y << ", " << c.z << ")" << std::endl;
-	// }
 }
 
 void Tetrahedron::draw_point(const point &p) const {
-	// std::cout << "(" << p.x << ", " << p.y << ", " << p.z << ")" << std::endl;
 	glVertex3f(p.x, p.y, p.z);
 }
 
@@ -50,8 +37,6 @@ Tetrahedron::Tetrahedron(point center, unsigned int edge_length) {
 }
 
 void Tetrahedron::draw() const {
-	// std::cout << "HELLO" << std::endl;
-
 	glBegin(GL_TRIANGLE_STRIP);
 
 	glColor3f(1, 1, 0);
@@ -101,5 +86,4 @@ void Tetrahedron::rotate(double theta_x, double theta_y, double theta_z) {
         p.x = old_x * cos(theta_z) - old_y * sin(theta_z);
         p.y = old_x * sin(theta_z) + old_y * cos(theta_z);
     }
-
 }

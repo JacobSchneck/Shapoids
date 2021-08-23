@@ -28,8 +28,6 @@ class Shape4D {
 		~Shape4D();
 
 		// methods
-		// virtual void draw() const = 0;
-		// virtual void rotate(const rotation4D &rot_mat) = 0;
 		void draw() const;
 		void rotate(const rotation4D &rot_mat);
 };

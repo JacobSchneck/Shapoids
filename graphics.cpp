@@ -1,30 +1,85 @@
 #include "graphics.h"
+
+// 3D shapes
 #include "3D_Shapes/cube.h"
 #include "3D_Shapes/tetrahedron.h"
 #include "3D_Shapes/sphere.h"
-#include "button.h"
 
+// 4D Shapes
+#include "4D_Shapes/Shape4D.h"
+#include "4D_Shapes/tesseract.h"
+#include "4D_Shapes/pentachoron.h"
+
+// Helpers
+#include "button.h"
+#include "enums.h"
+
+// Standard Lib
 #include <math.h>
 #include <iostream>
 #include <vector>
 using namespace std;
 
-
-Shape shape = CUBE;
+Shape shape = CUBE; // default Shape
+Dimension dim = THIRD; // default dimension
 
 GLdouble width, height;
 int wd;
+
+// 3D Shapes
 Cube c;
 Tetrahedron t;
 Sphere s;
-// Button b = Button("Button", {-200, 200, 0});
+
+// 4D Shapes
+Tesseract tess;
+Pentachoron pent;
+
+
+// Buttons
 Button cube_button = Button("Cube", {-210, 230, 0});
 Button tetrahedron_button = Button("Tetrahedron", {-140, 230, 0});
 Button sphere_button = Button("Sphere", {-70, 230, 0});
+Button button_3D  = Button("3D", {140, 230, 0});
+Button button_4D  = Button("4D", {210, 230, 0});
 
+
+
+// Rotation Matricies for 4th Dimension
+double d_theta = PI / 100;
+
+// xy plane rotation
+double theta_xy[4][4] {
+    {1, 0, 0, 0},
+    {0, 1, 0, 0},
+    {0, 0, cos(d_theta), -sin(d_theta),},
+    {0, 0, sin(d_theta), cos(d_theta), }
+};
+
+// xz plane rotation
+double theta_xz[4][4] {
+    {1, 				0, 0, 				0},
+    {0, cos(d_theta), 0, -sin(d_theta)},
+    {0, 				0, 1, 			  0,},
+    {0, sin(d_theta), 0,  cos(d_theta)}
+};
+
+//  yz plane rotation
+double theta_yz[4][4] {
+    {cos(d_theta), 0, 0, -sin(d_theta)},
+    {0, 1, 0, 0},
+    {0, 0, 1, 0,},
+    {sin(d_theta), 0, 0, cos(d_theta), }
+};
+
+// Initialize Screen
 void init() {
     width = 500;
     height = 500;
+
+    // default on buttons 
+    cube_button.on();
+    button_3D.on();
 }
 
 /* Initialize OpenGL Graphics */
@@ -41,6 +96,7 @@ void initGL() {
             //   0.0, 1.0, 0.0); // up vector
 }
 
+// Axis *Optional*
 void draw_axes() {
     glLineWidth(2.0);
     glBegin(GL_LINES);
@@ -79,29 +135,40 @@ void display() {
     cube_button.draw(CUBE);
     tetrahedron_button.draw(TETRAHEDRON);
     sphere_button.draw(SPHERE);
+    button_3D.draw();
+    button_4D.draw();
 
-    draw_axes();
-    switch(shape) {
-        case CUBE: c.draw();
-            break;
-        case TETRAHEDRON: t.draw();
-            break;
-        case SPHERE: 
-            s.draw();
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            glLineWidth(0.5f);
-            glColor3f(1, 1, 1);
-            s.draw();
-            break;
+    // draw_axes(); 
+
+    if (dim == FOURTH) {
+        switch(shape) {
+            case CUBE: tess.draw();
+                break;
+            case TETRAHEDRON: pent.draw();
+                break;
+            case SPHERE: 
+                glColor3f(1, 1, 1);
+                glRasterPos3f(-42, 0, 0);
+                for (const char &letter : "NOT FINISHED") {
+                    glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+                }
+                break;
+        }
+    } else {
+        switch(shape) {
+            case CUBE: c.draw();
+                break;
+            case TETRAHEDRON: t.draw();
+                break;
+            case SPHERE: 
+                s.draw();
+                // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                // glLineWidth(0.5f);
+                // glColor3f(1, 1, 1);
+                // s.draw();
+                break;
+        }
     }
-    // c.draw();
-    // // t.draw();
-
-    // // s.draw();
-    // // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    // // glLineWidth(0.5f);
-    // // glColor3f(1, 1, 1);
-    // // s.draw();
     
     glFlush();  // Render now
 }
@@ -117,9 +184,13 @@ void kbd(unsigned char key, int x, int y) {
     switch(key) {
         case 'x': 
             switch(shape) {
-                case CUBE: c.rotate(PI / 100.0, 0, 0);
+                case CUBE: 
+                    c.rotate(PI / 100.0, 0, 0);
+                    tess.rotate(theta_xy);
                     break;
-                case TETRAHEDRON: t.rotate(PI / 100.0, 0, 0);
+                case TETRAHEDRON: 
+                    t.rotate(PI / 100.0, 0, 0);
+                    pent.rotate(theta_xy);
                     break;
                 case SPHERE: s.rotate(PI / 100.0, 0, 0);
                     break;
@@ -127,9 +198,13 @@ void kbd(unsigned char key, int x, int y) {
             break;
         case 'z': 
             switch(shape) {
-                case CUBE: c.rotate(0, PI / 100.0, 0);
+                case CUBE: 
+                    c.rotate(0, PI / 100.0, 0);
+                    tess.rotate(theta_xz);
                     break;
-                case TETRAHEDRON: t.rotate(0, PI / 100.0, 0);
+                case TETRAHEDRON: 
+                    t.rotate(0, PI / 100.0, 0);
+                    pent.rotate(theta_xz);
                     break;
                 case SPHERE: s.rotate(0, PI / 100.0, 0);
                     break;
@@ -137,25 +212,18 @@ void kbd(unsigned char key, int x, int y) {
             break;
         case 'c': 
             switch(shape) {
-                case CUBE: c.rotate(0, 0, PI / 100.0);
+                case CUBE: 
+                    c.rotate(0, 0, PI / 100.0);
+                    tess.rotate(theta_yz);
                     break;
-                case TETRAHEDRON: t.rotate(0, 0, PI / 100.0);
+                case TETRAHEDRON: 
+                    t.rotate(0, 0, PI / 100.0);
+                    pent.rotate(theta_yz);
                     break;
                 case SPHERE: s.rotate(0, 0, PI / 100.0);
                     break;
             }
             break;
-
-    // only rotate for now
-
-    //     case 'g': c.grow(10);
-    //         break;
-    //     case 's': c.shrink(10);
-    //         break;
-    //     case ',': c.move(0, -5, 0);
-    //         break;
-    //     case '.': c.move(0, 5, 0);
-    //         break;
     }
     
     glutPostRedisplay();
@@ -164,16 +232,16 @@ void kbd(unsigned char key, int x, int y) {
 void kbdS(int key, int x, int y) {
     switch(key) {
         case GLUT_KEY_DOWN:
-            c.move(0, 0 , 5);
+            // c.move(0, 0 , 5);
             break;
         case GLUT_KEY_LEFT:
-            c.move(-5, 0, 0);
+            // c.move(-5, 0, 0);
             break;
         case GLUT_KEY_RIGHT:
-            c.move(5, 0, 0);
+            // c.move(5, 0, 0);
             break;
         case GLUT_KEY_UP:
-            c.move(0, 0 , -5);
+            // c.move(0, 0 , -5);
             break;
     }
     
@@ -189,29 +257,38 @@ void cursor(int x, int y) {
 void mouse(int button, int state, int x, int y) {
     int x_translate = x - 250;
     int y_translate = 250 - y;
+    
+    // handle dimension
+
+    // handle shape
     if (cube_button.hover(x_translate, y_translate) && state == GLUT_DOWN ) {
         cout << "cube" << endl;
         cube_button.on();
         tetrahedron_button.off();
         sphere_button.off();
-
         shape = CUBE;
-
     } else if (tetrahedron_button.hover(x_translate, y_translate) && state == GLUT_DOWN ) {
         cout << "tetrahedron" << endl;
         tetrahedron_button.on();
         cube_button.off();
         sphere_button.off();
-
         shape = TETRAHEDRON;
-        
     } else if (sphere_button.hover(x_translate, y_translate) && state == GLUT_DOWN ) {
         cout << "sphere" << endl;
         sphere_button.on();
         cube_button.off();
         tetrahedron_button.off();
-
         shape = SPHERE;
+    } else if (button_3D.hover(x_translate, y_translate) && state == GLUT_DOWN) {
+        cout << "3D Shapes" << endl;
+        button_3D.on();
+        button_4D.off();
+        dim = THIRD;
+    } else if (button_4D.hover(x_translate, y_translate) && state == GLUT_DOWN) {
+        cout << "4D Shapes" << endl;
+        button_4D.on();
+        button_3D.off();
+        dim = FOURTH;
     }
     glutPostRedisplay();
 }

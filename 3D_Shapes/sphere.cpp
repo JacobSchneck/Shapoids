@@ -61,6 +61,24 @@ Sphere::Sphere(point center, unsigned int radius, unsigned int num_points) {
 }
 
 void Sphere::draw() const {
+	glColor3f(0, 0, 1);
+	for (int i = 0; i < num_points; i++ ) {
+		glBegin(GL_TRIANGLE_STRIP);
+		for( int j = 0; j < num_points + 1; j++) {		
+			auto v1 = verticies[i][j]; 
+			auto v2 = verticies[i + 1][j];
+
+			glVertex3f(v1.x, v1.y, v1.z);
+			glVertex3f(v2.x, v2.y, v2.z);
+		}
+	}
+	glEnd();
+	
+	glColor3f(1, 1, 1);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glLineWidth(0.5f);
+	glColor3f(1, 1, 1);
+
 	for (int i = 0; i < num_points; i++ ) {
 		glBegin(GL_TRIANGLE_STRIP);
 		for( int j = 0; j < num_points + 1; j++) {		

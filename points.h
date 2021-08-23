@@ -1,5 +1,5 @@
-#ifndef INC_3DPOINTS_H
-#define INC_3DPOINTS_H
+#ifndef POINTS_H
+#define POINTS_H
 
 struct point3D {
 	double x;
