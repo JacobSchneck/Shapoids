@@ -6,6 +6,7 @@
 
 #include "../graphics.h"
 #include "../4D_Shapes/tesseract.h"
+#include "../4D_Shapes/pentachoron.h"
 #include "../points.h"
 
 #include <math.h>
@@ -78,6 +79,7 @@ unsigned int  pent_idx[19][2] {
 };
 
 auto tess = Tesseract();
+auto pent = Pentachoron();
 
 GLdouble width, height;
 void init() {
@@ -335,7 +337,8 @@ void display() {
 	*/
 	// draw_cube();
 
-	tess.draw();
+	// tess.draw();
+	pent.draw();
 
 	// draw_tesseract(); // works !!
 	// draw_pentachoron();
@@ -411,16 +414,19 @@ void kbd(unsigned char key, int x, int y) {
 			rotate(tesseract, theta_xy);
 			rotate(pentachoron, theta_xy);
 			tess.rotate(theta_xy_arr);
+			pent.rotate(theta_xy_arr);
 			break;
 		case 'z':   
 			rotate(tesseract, theta_xz);
 			rotate(pentachoron, theta_xz);
 			tess.rotate(theta_xz_arr);
+			pent.rotate(theta_xz_arr);
 			break;
 		case 'c': 
 			rotate(tesseract, theta_yz);
 			rotate(pentachoron, theta_yz);
 			tess.rotate(theta_yz_arr);
+			pent.rotate(theta_yz_arr);
 			break;
 	}
 
